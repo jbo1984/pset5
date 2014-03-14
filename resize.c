@@ -61,16 +61,22 @@ int main(int argc, char* argv[])
         return 4;
     }
 
-    BITMAPINFOHEADER newbi;
-    newbi.biWidth = bi.biWidth*resize; 
-    newbi.biHeight = bi.biHeight*resize; 
+    //Orginal width and height saved
+    ObiWidth = bi.biWidth*resize; 
+    ObiHeight = bi.biHeight*resize; 
+    
+    //new width and height
+    bi.biWidth = bi.biWidth*resize; 
+    bi.biHeight = bi.biHeight*resize; 
+    
     // write outfile's BITMAPFILEHEADER
     fwrite(&bf, sizeof(BITMAPFILEHEADER), 1, outptr);
 
     // write outfile's BITMAPINFOHEADER
-    fwrite(&newbi, sizeof(BITMAPINFOHEADER), 1, outptr);
+    fwrite(&bi, sizeof(BITMAPINFOHEADER), 1, outptr);
 
     // determine padding for scanlines
+    int OriPadding =  (4 - (OriWidth)biWidth * sizeof(RGBTRIPLE)) % 4) % 4;
     int padding =  (4 - (bi.biWidth * sizeof(RGBTRIPLE)) % 4) % 4;
 
     // iterate over infile's scanlines
