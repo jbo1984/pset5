@@ -62,8 +62,8 @@ int main(int argc, char* argv[])
     }
 
     //Orginal width and height saved
-    ObiWidth = bi.biWidth*resize; 
-    ObiHeight = bi.biHeight*resize; 
+    // TODO ObiWidth = bi.biWidth*resize; 
+    // TODO ObiHeight = bi.biHeight*resize; 
     
     //new width and height
     bi.biWidth = bi.biWidth*resize; 
@@ -76,7 +76,7 @@ int main(int argc, char* argv[])
     fwrite(&bi, sizeof(BITMAPINFOHEADER), 1, outptr);
 
     // determine padding for scanlines
-    int OriPadding =  (4 - (OriWidth)biWidth * sizeof(RGBTRIPLE)) % 4) % 4;
+    // TODO int OriPadding =  (4 - (OriWidth)biWidth * sizeof(RGBTRIPLE)) % 4) % 4; 
     int padding =  (4 - (bi.biWidth * sizeof(RGBTRIPLE)) % 4) % 4;
 
     // iterate over infile's scanlines
@@ -92,7 +92,10 @@ int main(int argc, char* argv[])
             fread(&triple, sizeof(RGBTRIPLE), 1, inptr);
 
             // write RGB triple to outfile
-            fwrite(&triple, sizeof(RGBTRIPLE), 1, outptr);
+            for (int i = 0; i < resize; i++)
+            { 
+                fwrite(&triple, sizeof(RGBTRIPLE), 1, outptr);
+            }
         }
 
         // skip over padding, if any
